@@ -1,4 +1,4 @@
-import { ShaderChunk, ShaderLib, ShaderMaterial } from 'three'
+import * as THREE from 'three'
 import { applyPatches } from './applyPatches'
 
 interface MaterialExtendConfig<T extends THREE.Material> {
@@ -45,9 +45,12 @@ export const createExtendedMaterial = function <T extends THREE.Material>(
         : [{}]
     const uniforms = opts.uniforms ?? {}
 
+    // const orig = new THREE.WebGLPrograms(). // new original(...parameters)
+    // orig.def
+
     // Instantiate material
     // ====================
-    // const material = new original(...parameters)
+    const material = new original(...parameters)
     const properties: MaterialExtendProperties = {
         fragmentShader: '',
         vertexShader: '',
@@ -66,8 +69,9 @@ export const createExtendedMaterial = function <T extends THREE.Material>(
         .replace('mesh', '')
         .replace('material', '')
     // ...then use it to find the original shaders
-    const originalVertex = ShaderLib[materialShortName]?.vertexShader
-    const originalFragment = ShaderLib[materialShortName]?.fragmentShader
+    const originalVertex = THREE.ShaderLib[materialShortName]?.vertexShader
+    const originalFragment = THREE.ShaderLib[materialShortName]?.fragmentShader
+    properties.uniforms = (material as any).uniforms
 
     // Make sure we have both before continuing
     if (!originalVertex || !originalFragment) {
@@ -92,9 +96,23 @@ export const createExtendedMaterial = function <T extends THREE.Material>(
     // Apply updates
     // ====================
     // material.setValues(properties)
-    console.log(properties)
+    // console.log(properties)
 
-    return new original(...parameters) //new ShaderMaterial(properties)
+    const finalMaterial = new THREE.ShaderMaterial(properties)
+    console.log(material.defines)
+
+    Object.keys(material).forEach((key) => {
+        console.log(
+            key,
+            // (opts?.parameters as any)?.[key] ??
+            (finalMaterial as any)[key] ?? (material as any)[key]
+        )
+        ;(finalMaterial as any)[key] =
+            // (opts?.parameters as any)?.[key] ??
+            (finalMaterial as any)[key] ?? (material as any)[key]
+    })
+    console.log(finalMaterial)
+    return finalMaterial
 }
 
 // extendMaterial(THREE.MeshPhysicalMaterial, {

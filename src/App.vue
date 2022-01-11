@@ -11,11 +11,12 @@ import { createExtendedMaterial } from './extendMaterial'
 const buildBox = function (x: number, material: any) {
     const box = new THREE.Mesh(
         new THREE.BoxGeometry(),
+        // new material({ color: 'blue' })
         createExtendedMaterial({
             original: material,
             parameters: { color: 'blue' },
-            header: 'vec4 red = rgba(1., 0., 0., 1.);',
-            fragment: { '@}': 'gl_FragColor = red; }' },
+            // header: 'vec4 red = vec4(1., 0., 0., 1.);',
+            // fragment: { '@}': 'gl_FragColor = vec4(1., 0., 0., 1.);}' },
         })
     )
     box.scale.setScalar(0.5)
@@ -35,22 +36,24 @@ const start: Vue3ThreeWrap.Start = (opts) => {
     sun.position.z = 5
     opts.scene.add(sun)
 
+    opts.scene.background = new THREE.Color('black')
+
     const mats = [
-        THREE.LineBasicMaterial,
-        THREE.LineDashedMaterial,
+        // THREE.LineBasicMaterial,
+        // THREE.LineDashedMaterial,
         THREE.MeshBasicMaterial,
-        THREE.MeshDepthMaterial,
-        THREE.MeshLambertMaterial,
-        THREE.MeshMatcapMaterial,
-        THREE.MeshNormalMaterial,
-        THREE.MeshPhongMaterial,
-        THREE.MeshPhysicalMaterial,
-        THREE.MeshStandardMaterial,
-        THREE.MeshToonMaterial,
-        THREE.PointsMaterial,
+        // THREE.MeshDepthMaterial,
+        // THREE.MeshLambertMaterial,
+        // THREE.MeshMatcapMaterial,
+        // THREE.MeshNormalMaterial,
+        // THREE.MeshPhongMaterial,
+        // THREE.MeshPhysicalMaterial,
+        // THREE.MeshStandardMaterial,
+        // THREE.MeshToonMaterial,
+        // THREE.PointsMaterial,
+        // THREE.ShadowMaterial,
         // THREE.RawShaderMaterial,
         // THREE.ShaderMaterial,
-        THREE.ShadowMaterial,
         // THREE.SpriteMaterial,
     ]
     mats.map((mat, i) => buildBox(i - mats.length * 0.5, mat)).forEach(
