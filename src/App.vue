@@ -5,13 +5,13 @@
 <script setup lang="ts">
 import { ThreeWrap, Vue3ThreeWrap } from 'vue3-three-wrap'
 import * as THREE from 'three'
-import { createExtendedMaterial } from './extendMaterial'
+import { extendMaterial } from './extendMaterial'
 
 // build boxes
 const buildBox = function (x: number, material: any) {
     const box = new THREE.Mesh(
         new THREE.BoxGeometry(),
-        createExtendedMaterial({
+        extendMaterial({
             original: material,
             properties: { color: 'blue' },
             // uniforms: {

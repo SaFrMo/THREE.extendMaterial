@@ -1,13 +1,15 @@
 {
-    "name": "three-extend-material",
+    "name": "extend-material",
     "version": "1.0.0",
     "description": "Plugin for extending built-in materials, instances of ShaderMaterial and built-in materials as well as shader objects of `onBeforeCompile`.",
-    "main": "src/ExtendMaterial.ts",
+    "main": "./dist/extend-material.umd.js",
     "scripts": {
         "dev": "vite",
+        "build": "vite build",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "files": [
+        "dist",
         "src"
     ],
     "repository": {
@@ -26,10 +28,20 @@
         "three": "0.136.0",
         "typescript": "4.5.4",
         "vite": "2.7.10",
+        "vite-dts": "1.0.4",
         "vue": "3.2.26",
+        "vue3-three-wrap": "1.0.3",
         "vue-tsc": "0.30.2"
     },
-    "dependencies": {
-        "vue3-three-wrap": "1.0.3"
+    "dependencies": {},
+    "peerDependencies": {
+        "three": "^0.136.0"
+    },
+    "module": "./dist/my-lib.es.js",
+    "exports": {
+        ".": {
+            "import": "./dist/my-lib.es.js",
+            "require": "./dist/my-lib.umd.js"
+        }
     }
 }
